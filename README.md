@@ -18,6 +18,8 @@ This repository demonstrates how to interact with the `SubchainRegistry` smart c
   - [Setup](#setup)
   - [Fetching Latest Index Periodically](#fetching-latest-index-periodically)
   - [Reading Subchain Information](#reading-subchain-information)
+  - [Metadata Schema](#metadata-schema)
+  - [Example Metadata](#example-metadata)
   - [Changing Subchain Status (Backend)](#changing-subchain-status-backend)
 
 ---
@@ -158,6 +160,83 @@ The tuple fields correspond to the `Subchain` struct:
 9. `activeTill` (u256 timestamp)
 
 ---
+
+## Metadata Schema
+
+The project metadata is defined by a JSON Schema (Draft-07) that bundles your flattened Solidity contract source and all required assets as Base64-encoded data URIs. This schema ensures consistency and makes it easy to consume by tooling or front-end components.
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Project Metadata",
+  "description": "Metadata including a single-file Solidity contract source and asset images in Base64",
+  "type": "object",
+  "properties": {
+    "compiledContractSource": {
+      "type": "string",
+      "description": "The flattened Solidity source code of your contract, all imports resolved into one file."
+    },
+    "logoDarkBase64": {
+      "type": "string",
+      "description": "Base64-encoded dark mode logo image (data URI prefix required).",
+      "pattern": "^data:image\\/(png|jpeg|svg\\+xml);base64,[A-Za-z0-9+/]+={0,2}$"
+    },
+    "logoLightBase64": {
+      "type": "string",
+      "description": "Base64-encoded light mode logo image (data URI prefix required).",
+      "pattern": "^data:image\\/(png|jpeg|svg\\+xml);base64,[A-Za-z0-9+/]+={0,2}$"
+    },
+    "projectDescription": {
+      "type": "string",
+      "description": "A brief description of the project."
+    },
+    "faviconBase64": {
+      "type": "string",
+      "description": "Base64-encoded favicon (data URI prefix required).",
+      "pattern": "^data:image\\/(x-icon|png|jpeg);base64,[A-Za-z0-9+/]+={0,2}$"
+    },
+    "explorerBackgroundBase64": {
+      "type": "string",
+      "description": "Base64-encoded explorer plate background image (data URI prefix required).",
+      "pattern": "^data:image\\/(png|jpeg|svg\\+xml);base64,[A-Za-z0-9+/]+={0,2}$"
+    }
+  },
+  "required": [
+    "compiledContractSource",
+    "logoDarkBase64",
+    "logoLightBase64",
+    "projectDescription",
+    "faviconBase64",
+    "explorerBackgroundBase64"
+  ],
+  "additionalProperties": false
+}
+```
+
+---
+
+## Example Metadata
+
+Below is a sample `metadata.json` file that conforms to the schema above. Replace the placeholder Base64 strings and contract source with your actual project data.
+
+```json
+{
+  "compiledContractSource": "pragma solidity ^0.8.4;\n\n// SPDX-License-Identifier: MIT\n// Flattened single-file contract\n\nlibrary SafeMath {\n    function add(uint256 a, uint256 b) internal pure returns (uint256) {\n        uint256 c = a + b;\n        require(c >= a, \"SafeMath: addition overflow\");\n        return c;\n    }\n}\n\ncontract MyToken {\n    using SafeMath for uint256;\n\n    string public name = \"ExampleToken\";\n    string public symbol = \"EXT\";\n    uint8 public decimals = 18;\n    uint256 public totalSupply;\n    mapping(address => uint256) public balanceOf;\n\n    constructor(uint256 _initialSupply) {\n        totalSupply = _initialSupply;\n        balanceOf[msg.sender] = _initialSupply;\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool) {\n        require(balanceOf[msg.sender] >= _value, \"Insufficient balance\");\n        balanceOf[msg.sender] = balanceOf[msg.sender] - _value;\n        balanceOf[_to] = balanceOf[_to] + _value;\n        return true;\n    }\n}",
+  "logoDarkBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAYAAAD+f4QbAAA...",
+  "logoLightBase64": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv...",
+  "projectDescription": "ExplorerPlate is a decentralized data-explorer interface for on-chain analytics, with dark/light theming and a reactive smart-contract backend.",
+  "faviconBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAA...",
+  "explorerBackgroundBase64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHC..."
+}
+```
+
+**Usage:**
+
+1. Include this JSON file in your project root or publish it alongside your frontend.
+2. Consume it at runtime to dynamically load contract source, logos, favicon, and background assets.
+3. Ensure any Base64 data URIs are valid and that the flattened contract source compiles successfully.
+
+
 
 ## Changing Subchain Status (Backend)
 

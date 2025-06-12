@@ -1,0 +1,8 @@
+{
+  "compiledContractSource": "pragma solidity ^0.8.4;\n\n// SPDX-License-Identifier: MIT\n// Flattened single-file contract\n\nlibrary SafeMath {\n    function add(uint256 a, uint256 b) internal pure returns (uint256) {\n        uint256 c = a + b;\n        require(c >= a, \"SafeMath: addition overflow\");\n        return c;\n    }\n}\n\ncontract MyToken {\n    using SafeMath for uint256;\n\n    string public name = \"ExampleToken\";\n    string public symbol = \"EXT\";\n    uint8 public decimals = 18;\n    uint256 public totalSupply;\n    mapping(address => uint256) public balanceOf;\n\n    constructor(uint256 _initialSupply) {\n        totalSupply = _initialSupply;\n        balanceOf[msg.sender] = _initialSupply;\n    }\n\n    function transfer(address _to, uint256 _value) public returns (bool) {\n        require(balanceOf[msg.sender] >= _value, \"Insufficient balance\");\n        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\n        balanceOf[_to] = balanceOf[_to].add(_value);\n        return true;\n    }\n}",
+  "logoDarkBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAYAAAD+f4QbAAA...",
+  "logoLightBase64": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv...",
+  "projectDescription": "ExplorerPlate is a decentralized data-explorer interface for on-chain analytics, with dark/light theming and a reactive smart-contract backend.",
+  "faviconBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAA...",
+  "explorerBackgroundBase64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHC..."
+}

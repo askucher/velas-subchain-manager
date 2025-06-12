@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Project Metadata",
+  "description": "Metadata including a single-file Solidity contract source and asset images in Base64",
+  "type": "object",
+  "properties": {
+    "compiledContractSource": {
+      "type": "string",
+      "description": "The flattened Solidity source code of your contract, all imports resolved into one file."
+    },
+    "logoDarkBase64": {
+      "type": "string",
+      "description": "Base64-encoded dark mode logo image (data URI prefix required).",
+      "pattern": "^data:image\\/(png|jpeg|svg\\+xml);base64,[A-Za-z0-9+/]+={0,2}$"
+    },
+    "logoLightBase64": {
+      "type": "string",
+      "description": "Base64-encoded light mode logo image (data URI prefix required).",
+      "pattern": "^data:image\\/(png|jpeg|svg\\+xml);base64,[A-Za-z0-9+/]+={0,2}$"
+    },
+    "projectDescription": {
+      "type": "string",
+      "description": "A brief description of the project."
+    },
+    "faviconBase64": {
+      "type": "string",
+      "description": "Base64-encoded favicon (data URI prefix required).",
+      "pattern": "^data:image\\/(x-icon|png|jpeg);base64,[A-Za-z0-9+/]+={0,2}$"
+    },
+    "explorerBackgroundBase64": {
+      "type": "string",
+      "description": "Base64-encoded explorer plate background image (data URI prefix required).",
+      "pattern": "^data:image\\/(png|jpeg|svg\\+xml);base64,[A-Za-z0-9+/]+={0,2}$"
+    }
+  },
+  "required": [
+    "compiledContractSource",
+    "logoDarkBase64",
+    "logoLightBase64",
+    "projectDescription",
+    "faviconBase64",
+    "explorerBackgroundBase64"
+  ],
+  "additionalProperties": false
+}
