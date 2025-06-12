@@ -66,7 +66,7 @@ contract SubchainRegistryTest is Test {
             "domain",
             "SYM",
             "https://ipfs.org/xyz",
-            1
+            861
         );
         vm.stopPrank();
 
@@ -84,7 +84,7 @@ contract SubchainRegistryTest is Test {
         assertEq(name, "Name");
         assertEq(domain, "domain");
         assertEq(symbol, "SYM");
-        assertEq(chainId, 1);
+        assertEq(chainId, 861);
         assertEq(uint(status), uint(SubchainRegistry.Status.Pending));
         assertEq(registry.totalSubchains(), 1);
     }
@@ -93,11 +93,11 @@ contract SubchainRegistryTest is Test {
     function testRegisterDuplicateDomainFails() public {
         vm.startPrank(user);
         usdc.approve(address(registry), REG_FEE);
-        registry.registerSubchain("A", "dup", "A", "https://ipfs.org/xyz", 2);
+        registry.registerSubchain("A", "dup", "A", "https://ipfs.org/xyz", 862);
 
         usdc.approve(address(registry), REG_FEE);
         vm.expectRevert(bytes("Domain already used"));
-        registry.registerSubchain("B", "dup", "B", "https://ipfs.org/xyz", 3);
+        registry.registerSubchain("B", "dup", "B", "https://ipfs.org/xyz", 862);
         vm.stopPrank();
     }
 
@@ -105,11 +105,11 @@ contract SubchainRegistryTest is Test {
     function testRegisterDuplicateChainIdFails() public {
         vm.startPrank(user);
         usdc.approve(address(registry), REG_FEE);
-        registry.registerSubchain("A", "a", "A", "https://ipfs.org/xyz", 5);
+        registry.registerSubchain("A", "a", "A", "https://ipfs.org/xyz", 865);
 
         usdc.approve(address(registry), REG_FEE);
         vm.expectRevert(bytes("Chain ID already used"));
-        registry.registerSubchain("B", "b", "B", "https://ipfs.org/xyz", 5);
+        registry.registerSubchain("B", "b", "B", "https://ipfs.org/xyz", 865);
         vm.stopPrank();
     }
 
@@ -118,7 +118,7 @@ contract SubchainRegistryTest is Test {
         // Register first
         vm.startPrank(user);
         usdc.approve(address(registry), REG_FEE);
-        registry.registerSubchain("X", "x", "X", "https://ipfs.org/xyz", 10);
+        registry.registerSubchain("X", "x", "X", "https://ipfs.org/xyz", 8610);
         vm.stopPrank();
 
         // Unauthorized should revert
@@ -141,7 +141,7 @@ contract SubchainRegistryTest is Test {
         // Setup and activate
         vm.startPrank(user);
         usdc.approve(address(registry), REG_FEE);
-        registry.registerSubchain("Y", "y", "Y", "https://ipfs.org/xyz", 20);
+        registry.registerSubchain("Y", "y", "Y", "https://ipfs.org/xyz", 86123);
         vm.stopPrank();
 
         vm.prank(backend);

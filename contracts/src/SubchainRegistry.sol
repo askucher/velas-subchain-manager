@@ -108,6 +108,14 @@ contract SubchainRegistry is AccessControl {
         require(!_domainUsed[dh], "Domain already used");
         require(!_chainIdUsed[chainId], "Chain ID already used");
 
+        uint256 prefix = chainId;
+        // keep dividing by 10 until only the first two digits remain
+        while (prefix >= 100) {
+            prefix /= 10;
+        }
+
+        require(prefix == 86, "Chain ID must start with 86");
+
         // collect fee
         usdc.safeTransferFrom(msg.sender, address(this), registrationFee);
 
