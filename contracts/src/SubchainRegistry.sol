@@ -30,6 +30,7 @@ contract SubchainRegistry is AccessControl {
         string name;
         string domain;
         string symbol;
+        string metadataUrl;
         uint256 chainId;
         address owner;
         Status status;
@@ -100,6 +101,7 @@ contract SubchainRegistry is AccessControl {
         string calldata name,
         string calldata domain,
         string calldata symbol,
+        string calldata metadataUrl,
         uint256 chainId
     ) external {
         bytes32 dh = keccak256(bytes(domain));
@@ -119,6 +121,7 @@ contract SubchainRegistry is AccessControl {
                 name: name,
                 domain: domain,
                 symbol: symbol,
+                metadataUrl: metadataUrl,
                 chainId: chainId,
                 owner: msg.sender,
                 status: Status.Pending,
@@ -173,6 +176,7 @@ contract SubchainRegistry is AccessControl {
             string memory name,
             string memory domain,
             string memory symbol,
+            string memory metadataUrl,
             uint256 chainId,
             address owner,
             Status status,
@@ -186,6 +190,7 @@ contract SubchainRegistry is AccessControl {
             s.name,
             s.domain,
             s.symbol,
+            s.metadataUrl,
             s.chainId,
             s.owner,
             s.status,
