@@ -138,6 +138,7 @@ println!(
     idx,
     sub.0,       // name
     sub.1,       // domain
+    sub.1,       // metadaUrl
     sub.3,       // chainId
     sub.4,       // owner address
     sub.5        // status enum
@@ -149,11 +150,12 @@ The tuple fields correspond to the `Subchain` struct:
 1. `name` (String)
 2. `domain` (String)
 3. `symbol` (String)
-4. `chainId` (u256)
-5. `owner` (Address)
-6. `status` (enum)
-7. `registrationTime` (u256 timestamp)
-8. `activeTill` (u256 timestamp)
+4. `metadataUrl` (String)
+5. `chainId` (u256)
+6. `owner` (Address)
+7. `status` (enum)
+8. `registrationTime` (u256 timestamp)
+9. `activeTill` (u256 timestamp)
 
 ---
 
