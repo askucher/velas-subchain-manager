@@ -66,7 +66,7 @@ contract DeploySubchain is Script {
         try vm.envUint("MONTHLY_FEE") returns (uint256 fee) {
             monthlyFee = fee;
         } catch {
-            monthlyFee = 1_000 * 10 ** 6; // default: 1 000 USDT
+            monthlyFee = 1_000 * 10 ** 18; // default: 1 000 USDT
             console.log("Using default monthly fee:", monthlyFee);
         }
 
