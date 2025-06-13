@@ -58,8 +58,8 @@ contract SubchainRegistry is AccessControl {
     constructor(
         address _usdc,
         address _usdt,
-        uint256 _registrationFee, // e.g. 10_000 * 10**6
-        uint256 _monthlyFee // e.g. 1_000 * 10**6
+        uint256 _registrationFee, // e.g. 10_000 * 10**18
+        uint256 _monthlyFee // e.g. 1_000 * 10**18
     ) {
         require(
             _usdc != address(0) && _usdt != address(0),
@@ -149,7 +149,7 @@ contract SubchainRegistry is AccessControl {
         require(msg.sender == s.owner, "Not owner");
         require(s.status == Status.Active, "Must be active");
 
-        usdt.safeTransferFrom(msg.sender, address(this), monthlyFee);
+        usdc.safeTransferFrom(msg.sender, address(this), monthlyFee);
 
         uint256 start = block.timestamp > s.activeTill
             ? block.timestamp
