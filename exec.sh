@@ -77,7 +77,7 @@ deploy() {
         exit 1
     fi
 
-    forge script scripts/SubchainRegistry.sol --broadcast --private-key="$PRIVATE_KEY" --rpc-url="$RPC_URL"
+    forge script ./script/SubchainRegistry.sol:DeploySubchain --broadcast --private-key="$PRIVATE_KEY" --rpc-url="$RPC_URL"
 }
 
 "$1" "$2"
