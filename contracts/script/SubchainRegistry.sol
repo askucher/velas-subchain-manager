@@ -40,7 +40,7 @@ contract DeploySubchain is Script {
         try vm.envAddress("USDC_ADDRESS") returns (address addr) {
             usdc = addr;
         } catch {
-            MockERC20 usdcMock = new MockERC20("Mock USDC", "mUSDC", 6);
+            MockERC20 usdcMock = new MockERC20("Mock USDC", "mUSDC", 18);
             usdc = address(usdcMock);
             console.log("Deployed mock USDC at:", usdc);
         }
