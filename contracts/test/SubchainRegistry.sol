@@ -22,8 +22,8 @@ contract SubchainRegistryTest is Test {
     address public backend = address(0xBEEF);
     address public user = address(0xCAFE);
 
-    uint256 constant REG_FEE = 10_000 * 1e6;
-    uint256 constant MONTH_FEE = 1_000 * 1e6;
+    uint256 constant REG_FEE = 10_000 * 1e18;
+    uint256 constant MONTH_FEE = 1_000 * 1e18;
 
     // Re-declare events to capture them in tests
     event SubchainRegistered(uint256 indexed index, address indexed owner);
@@ -154,7 +154,7 @@ contract SubchainRegistryTest is Test {
 
         // Pay monthly
         vm.startPrank(user);
-        usdt.approve(address(registry), MONTH_FEE);
+        usdc.approve(address(registry), MONTH_FEE);
         uint256 before = block.timestamp;
         vm.warp(before + 1 days);
         vm.expectEmit(true, false, false, false);

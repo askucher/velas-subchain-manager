@@ -23,6 +23,9 @@ contract SubchainRegistry is AccessControl {
     // Monthly fee amount in USDT (6 decimals)
     uint256 public immutable monthlyFee;
 
+    //Use USDT for payments;
+    bool public useUsdtForPayments;
+
     // --- Status enum ---
     // Possible statuses for a subchain
     enum Status {
@@ -92,6 +95,12 @@ contract SubchainRegistry is AccessControl {
         _grantRole(BACKEND_ROLE, msg.sender);
     }
 
+    /// @notice Founder can switch payment token between USDC and USDT
+    /// @param useUsdt True to use USDT, false to use USDC
+    function switchPaymentToken(bool useUsdt) external onlyRole(FOUNDER_ROLE) {
+        useUsdtForPayments = useUsdt;
+    }
+
     /// @notice Add a founder address
     /// @param account The address to grant founder role
     function addFounder(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -143,7 +152,7 @@ contract SubchainRegistry is AccessControl {
         require(prefix == 86, "Chain ID must start with 86");
 
         // collect fee
-        usdc.safeTransferFrom(msg.sender, address(this), registrationFee);
+        _collectFee(registrationFee);
 
         // mark uniqueness
         _domainUsed[dh] = true;
@@ -176,8 +185,8 @@ contract SubchainRegistry is AccessControl {
         require(msg.sender == s.owner, "Not owner");
         require(s.status == Status.Active, "Must be active");
 
-        // collect monthly fee in USDT
-        usdt.safeTransferFrom(msg.sender, address(this), monthlyFee);
+        // collect monthly fee
+        _collectFee(monthlyFee);
 
         uint256 start = block.timestamp > s.activeTill
             ? block.timestamp
@@ -185,6 +194,16 @@ contract SubchainRegistry is AccessControl {
         s.activeTill = start + 30 days;
 
         emit MonthlyPayment(index, s.activeTill);
+    }
+
+    /// @notice Internal function to collect fee in selected token
+    /// @param amount The amount to collect
+    function _collectFee(uint256 amount) internal {
+        if (useUsdtForPayments) {
+            usdt.safeTransferFrom(msg.sender, address(this), amount);
+        } else {
+            usdc.safeTransferFrom(msg.sender, address(this), amount);
+        }
     }
 
     // --- Backend-only management ---
