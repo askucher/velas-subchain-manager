@@ -3,6 +3,17 @@
 
 ## Jun 13
 
+= Logs ==
+  Deployed mock USDC at: 0x153Fa62D7A02B9d62606f8DCb408f7C1cE5e02Fb
+  Deployed mock USDT at: 0x7fC37BAeB8117bC9Ff41DE3EE30DD8885c004B05
+  Using default registration fee: 10000000000
+  Using default monthly fee: 1000000000
+  SubchainRegistry deployed at: 0x385650590651c985268b20297A76E6b1A912Ea90
+
+## Setting up 1 EVM.
+
+==========================
+
 Chain 11155111
 
 Estimated gas price: 0.004052234 gwei
@@ -34,3 +45,12 @@ Block: 8539205
 Paid: 0.000003423622994902 ETH (1412063 gas * 0.002424554 gwei)
 
 ✅ Sequence #1 on sepolia | Total Paid: 0.000006207811089722 ETH (2560393 gas * avg 0.002424554 gwei)
+                                                                                                                                                  
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /Users/askucher/Documents/projects/velas-subchain-manager/contracts/broadcast/SubchainRegistry.sol/11155111/run-latest.json
+
+Sensitive values saved to: /Users/askucher/Documents/projects/velas-subchain-manager/contracts/cache/SubchainRegistry.sol/11155111/run-latest.json
