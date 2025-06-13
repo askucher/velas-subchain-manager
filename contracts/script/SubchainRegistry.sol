@@ -58,7 +58,7 @@ contract DeploySubchain is Script {
         try vm.envUint("REGISTRATION_FEE") returns (uint256 fee) {
             registrationFee = fee;
         } catch {
-            registrationFee = 10_000 * 10 ** 6; // default: 10 000 USDC
+            registrationFee = 10_000 * 10 ** 18; // default: 10 000 USDC
             console.log("Using default registration fee:", registrationFee);
         }
 
