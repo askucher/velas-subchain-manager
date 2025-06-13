@@ -21,6 +21,8 @@ This repository demonstrates how to interact with the `SubchainRegistry` smart c
   - [Metadata Schema](#metadata-schema)
   - [Example Metadata](#example-metadata)
   - [Changing Subchain Status (Backend)](#changing-subchain-status-backend)
+    - [Deploy Contracts](#deploy-contracts)
+    - [Test Contracts](#test-contracts)
 
 ---
 
@@ -267,3 +269,16 @@ Replace the index and `Status` variant as needed:
 * `SubchainRegistryStatus::Active` (1)
 * `SubchainRegistryStatus::Suspended` (2)
 * `SubchainRegistryStatus::Deleted` (3)
+
+
+### Deploy Contracts
+
+
+* Feel the .env 
+* Run `bash exec.sh deploy`
+
+### Test Contracts
+
+
+* Feel the .env 
+* Run `bash exec.sh test`
