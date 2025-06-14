@@ -19,9 +19,9 @@ contract SubchainRegistry is AccessControl {
     // USDT token used for monthly fee payments
     IERC20 public immutable usdt;
     // Registration fee amount in USDC (6 decimals)
-    uint256 public immutable registrationFee;
+    uint256 public registrationFee;
     // Monthly fee amount in USDT (6 decimals)
-    uint256 public immutable monthlyFee;
+    uint256 public monthlyFee;
 
     //Use USDT for payments;
     bool public useUsdtForPayments;
@@ -100,6 +100,28 @@ contract SubchainRegistry is AccessControl {
     function switchPaymentToken(bool useUsdt) external onlyRole(FOUNDER_ROLE) {
         useUsdtForPayments = useUsdt;
     }
+
+    /// @notice Founder can update the registration fee
+    /// @param newFee The new registration fee amount
+    function setRegistrationFee(
+        uint256 newFee
+    ) external onlyRole(FOUNDER_ROLE) {
+        registrationFee = newFee;
+        emit RegistrationFeeChanged(newFee);
+    }
+
+    /// @notice Founder can update the monthly fee
+    /// @param newFee The new monthly fee amount
+    function setMonthlyFee(uint256 newFee) external onlyRole(FOUNDER_ROLE) {
+        monthlyFee = newFee;
+        emit MonthlyFeeChanged(newFee);
+    }
+
+    /// @notice Emitted when registration fee is changed
+    event RegistrationFeeChanged(uint256 newFee);
+
+    /// @notice Emitted when monthly fee is changed
+    event MonthlyFeeChanged(uint256 newFee);
 
     /// @notice Add a founder address
     /// @param account The address to grant founder role
@@ -200,8 +222,11 @@ contract SubchainRegistry is AccessControl {
     /// @param amount The amount to collect
     function _collectFee(uint256 amount) internal {
         if (useUsdtForPayments) {
-            usdt.safeTransferFrom(msg.sender, address(this), amount);
+            // Adjust amount to 6 decimals for USDT
+            uint256 adjustedAmount = amount / 1e12;
+            usdt.safeTransferFrom(msg.sender, address(this), adjustedAmount);
         } else {
+            // Use amount as is for USDC (18 decimals)
             usdc.safeTransferFrom(msg.sender, address(this), amount);
         }
     }
